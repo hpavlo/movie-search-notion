@@ -1,0 +1,59 @@
+<div class="container">
+  <h2 class="title">Movie Search</h2>
+  <div class="search-box" *ngIf="allSecretsAreAvailable">
+    <div class="search-area back-panel">
+      <input type="text" [(ngModel)]="searchQuery" (keyup.enter)="search()" placeholder="Search..." autocomplete="off"
+        autofocus required />
+      <button (click)="search()">
+        <span class="material-symbols-outlined">search</span>
+      </button>
+    </div>
+    <div class="search-options">
+      <input type="radio" id="movie" value="Movie" checked [(ngModel)]="isMovieSelected" [value]="true" />
+      <label for="movie">Movie</label>
+      <input type="radio" id="tv" value="TV Show" [(ngModel)]="isMovieSelected" [value]="false" />
+      <label for="tv">TV Show</label>
+    </div>
+  </div>
+  <div class="back-panel movie-info" *ngIf="allSecretsAreAvailable">
+    <p class="no-movie-message" *ngIf="!response || response.results.length == 0; else movieInfo">
+      No movie found
+    </p>
+  </div>
+
+  <div *ngIf="!allSecretsAreAvailable">
+    <p class="secret-form-error-message">{{ errorMessage }}</p>
+    <input class="back-panel secret-form-input" type="text" [(ngModel)]="secrets" (keyup.enter)="saveSecrets()"
+      placeholder="apikey,token,moviedb,tvdb" autofocus required />
+    <button class="secret-form-btn" (click)="saveSecrets()">Save</button>
+  </div>
+</div>
+
+<ng-template #movieInfo>
+  <div>
+    <div class="navigation left" (click)="getMovieInfo(-1)"
+      [ngStyle]="{ visibility: movieIndex > 0 ? 'visible' : 'hidden' }">
+      <span class="material-symbols-outlined">navigate_before</span>
+    </div>
+    <div class="poster">
+      <img *ngIf="posterPath" src="{{ posterPath }}" />
+      <span *ngIf="!posterPath" class="material-symbols-outlined">image_not_supported</span>
+    </div>
+  </div>
+  <div>
+    <div class="info">
+      <div>
+        <p class="title">{{ title }}</p>
+        <p class="row year">{{ date | date : "YYYY" }}</p>
+        <p class="row genres">{{ genres }}</p>
+      </div>
+      <button class="add-btn" [disabled]="addButtonText == 'Added'" (click)="addToDb()">{{ addButtonText }}</button>
+    </div>
+    <div class="navigation right" (click)="getMovieInfo(1)" [ngStyle]="{
+        visibility:
+          movieIndex < this.response.results.length - 1 ? 'visible' : 'hidden'
+      }">
+      <span class="material-symbols-outlined">navigate_next</span>
+    </div>
+  </div>
+</ng-template>
