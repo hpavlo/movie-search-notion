@@ -34,6 +34,11 @@ export class AppComponent {
   }
 
   search() {
+    if (this.searchQuery == '/r') {
+      localStorage.clear();
+      this.allSecretsAreAvailable = false;
+      return;
+    }
     this.movieIndex = 0;
     this.dbService
       .search(this.searchQuery, this.isMovieSelected)

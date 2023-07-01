@@ -11,7 +11,7 @@ export class NotionService {
   private apiUrl = 'https://corsproxy.io/?https://api.notion.com/v1';
   private backdropUrl = 'https://image.tmdb.org/t/p/original/';
   private apiHeaders = {
-    Authorization: `${localStorage.getItem('notion_token')}`,
+    'Authorization': `${localStorage.getItem('notion_token')}`,
     'Notion-Version': '2022-06-28',
     'Content-Type': 'application/json',
   };
