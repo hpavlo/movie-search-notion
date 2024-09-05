@@ -106,6 +106,7 @@ export class AppComponent {
     if (
       localStorage.getItem('tmdb_key') == null ||
       localStorage.getItem('notion_token') == null ||
+      localStorage.getItem('cors_token') == null ||
       localStorage.getItem('movie_db_id') == null ||
       localStorage.getItem('tv_db_id') == null
     ) {
@@ -115,14 +116,17 @@ export class AppComponent {
 
   saveSecrets() {
     const secretArray = this.secrets.split(',');
-    if (secretArray.length != 4) {
+    if (secretArray.length != 5) {
       this.errorMessage = 'Format is incorrect';
       return;
     }
     const tmdb_key = secretArray[0];
     const notion_token = secretArray[1];
-    const movie_db_id = secretArray[2];
-    const tv_db_id = secretArray[3];
+    const cors_token = secretArray[2];
+    const movie_db_id = secretArray[3];
+    const tv_db_id = secretArray[4];
+
+    localStorage.setItem('cors_token', cors_token);
 
     if (!this.dbService.apiKeyValidation(tmdb_key)) {
       this.errorMessage = 'TMDB API key is incorrect';
